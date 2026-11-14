@@ -9,7 +9,7 @@ A small 3D house scene built with **C++17, OpenGL, FreeGLUT, GLU and CMake**. Th
 - Orbit camera controlled by the mouse, with bounded zoom.
 - Perspective and orthographic projection modes.
 - Basic fixed-function lighting, materials and depth testing.
-- CMake build and a GitHub Actions build workflow.
+- CMake build and GitHub Actions build workflow.
 
 ## Tech stack
 
@@ -22,7 +22,7 @@ A small 3D house scene built with **C++17, OpenGL, FreeGLUT, GLU and CMake**. Th
 | Build system | CMake 3.16+ |
 | CI | GitHub Actions |
 
-> This project intentionally uses the OpenGL fixed-function pipeline (glBegin, matrix stack, glMaterial, glLight) to keep rendering operations explicit and easy to follow. It does not target the modern OpenGL core profile.
+> This project intentionally uses the OpenGL fixed-function pipeline to keep rendering operations explicit and easy to follow. It does not target the modern OpenGL core profile.
 
 ## Getting started
 
@@ -64,30 +64,26 @@ Run the executable from a desktop session with an OpenGL-capable display. A head
     │   └── workflows/build.yml
     ├── docs/
     │   ├── architecture.md
+    │   ├── branch-protection.md
     │   ├── development.md
     │   ├── roadmap.md
+    │   ├── roles-and-permissions.md
     │   └── team-workflow.md
     ├── include/house/
-    │   ├── camera.hpp
-    │   ├── render_utils.hpp
-    │   └── scene.hpp
     ├── src/
-    │   ├── camera.cpp
-    │   ├── environment.cpp
-    │   ├── house.cpp
-    │   ├── main.cpp
-    │   └── render_utils.cpp
     ├── CMakeLists.txt
     ├── CONTRIBUTING.md
     └── LICENSE
 
 ## Documentation
 
-- [Architecture](docs/architecture.md) — modules, render flow, coordinate conventions and design boundaries.
-- [Development setup](docs/development.md) — prerequisites, build commands, troubleshooting and code conventions.
-- [Team workflow](docs/team-workflow.md) — ownership, branch strategy, reviews and integration rules.
-- [Roadmap](docs/roadmap.md) — current scope, planned improvements and technical priorities.
-- [Contributing](CONTRIBUTING.md) — contribution checklist and pull request expectations.
+- [Architecture](docs/architecture.md) — modules, render flow and coordinate conventions.
+- [Development setup](docs/development.md) — prerequisites, build commands and troubleshooting.
+- [Roles and permissions](docs/roles-and-permissions.md) — team responsibilities and repository access model.
+- [Team workflow](docs/team-workflow.md) — branch strategy, pull requests and reviews.
+- [Branch protection](docs/branch-protection.md) — required GitHub settings to protect main.
+- [Roadmap](docs/roadmap.md) — current scope and technical priorities.
+- [Contributing](CONTRIBUTING.md) — development and pull request standards.
 
 ## Rendering overview
 
@@ -95,11 +91,11 @@ Vertices are transformed through the model, view and projection stages:
 
     clipPosition = Projection × View × Model × localPosition
 
-The current implementation uses the OpenGL matrix stack for model transforms, gluLookAt for the view transform, and gluPerspective / glOrtho for projection. See the [architecture guide](docs/architecture.md) for details.
+The current implementation uses the OpenGL matrix stack for model transforms, gluLookAt for the view transform, and gluPerspective / glOrtho for projection. See [architecture.md](docs/architecture.md) for details.
 
-## Contributing
+## Contribution policy
 
-Open a focused feature branch and submit a pull request to main. Keep module ownership clear, build locally before requesting review, and include screenshots for visible scene changes. Read [CONTRIBUTING.md](CONTRIBUTING.md) before starting.
+**All changes must be merged through pull requests. Direct pushes to main are not part of the team workflow.** The repository's branch protection must also be enabled in GitHub Settings to enforce this server-side. See [branch-protection.md](docs/branch-protection.md).
 
 ## License
 
