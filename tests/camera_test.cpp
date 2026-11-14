@@ -22,18 +22,29 @@ void expectNear(float actual, float expected, float tolerance,
 
 int main() {
     house::Camera camera;
+    constexpr float kBaseOrthographicHalfHeight = 11.5F;
 
     expectNear(camera.distance(), house::Camera::kDefaultDistance, 0.0001F,
                "camera starts at its default distance");
+    expectNear(camera.orthographicHalfHeight(kBaseOrthographicHalfHeight),
+               kBaseOrthographicHalfHeight, 0.0001F,
+               "orthographic extent starts at its default size");
 
     camera.zoom(-1.0F);
     const float zoomedInDistance = camera.distance();
+    const float zoomedInHalfHeight =
+        camera.orthographicHalfHeight(kBaseOrthographicHalfHeight);
     expect(zoomedInDistance < house::Camera::kDefaultDistance,
            "negative zoom steps move the camera closer");
+    expect(zoomedInHalfHeight < kBaseOrthographicHalfHeight,
+           "negative zoom steps reduce orthographic view extent");
 
     camera.zoom(1.0F);
     expectNear(camera.distance(), house::Camera::kDefaultDistance, 0.0001F,
                "one zoom-in step followed by one zoom-out step is reversible");
+    expectNear(camera.orthographicHalfHeight(kBaseOrthographicHalfHeight),
+               kBaseOrthographicHalfHeight, 0.0001F,
+               "orthographic extent returns to its default size");
 
     camera.zoom(-1000.0F);
     expectNear(camera.distance(), 7.0F, 0.0001F,
