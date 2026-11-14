@@ -40,7 +40,20 @@ To start from a clean build directory:
 
 ## Runtime testing
 
-The GitHub Actions workflow checks that the project configures and compiles on Linux. Interactive checks still need to be performed in a desktop session. When changing geometry, camera or lighting, verify at least a front view and an angled view.
+The GitHub Actions workflow checks that the project configures and compiles on Linux. Interactive checks still need to be performed in a desktop session.
+
+When changing camera or rendering code, verify:
+
+1. Left-button dragging orbits smoothly and the camera cannot flip over the top or bottom.
+2. Right- and middle-button dragging pans the scene without changing its orientation.
+3. Mouse-wheel and + / - zoom remain bounded near and far from the scene.
+4. P switches projection modes without breaking the current viewport aspect ratio.
+5. L toggles lighting, and the light source does not appear to move with the camera.
+6. R restores the default camera, projection and lighting state.
+7. Resizing the window keeps the scene and HUD usable.
+8. The HUD remains readable and does not leave depth, blending or lighting state altered.
+
+When changing geometry, verify at least a front view and an angled view. The CI runner is headless and does not replace these visual checks.
 
 ## Troubleshooting
 
