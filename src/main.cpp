@@ -50,7 +50,7 @@ void drawHud() {
 
     // Isolate the HUD's temporary state changes from the 3D renderer.
     glPushAttrib(GL_ENABLE_BIT | GL_CURRENT_BIT | GL_COLOR_BUFFER_BIT |
-                 GL_DEPTH_BUFFER_BIT);
+                 GL_DEPTH_BUFFER_BIT | GL_LIGHTING_BIT);
 
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
