@@ -137,9 +137,8 @@ void display() {
         gluPerspective(48.0, aspect, 0.1, 120.0);
     } else {
         // Keep orthographic zoom behavior consistent with perspective mode.
-        const double zoomRatio =
-            static_cast<double>(camera.distance() / house::Camera::kDefaultDistance);
-        const double halfHeight = kOrthographicHalfHeight * zoomRatio;
+        const double halfHeight = static_cast<double>(
+            camera.orthographicHalfHeight(kOrthographicHalfHeight));
         const double halfWidth = halfHeight * static_cast<double>(aspect);
         glOrtho(-halfWidth, halfWidth, -halfHeight, halfHeight, 0.1, 120.0);
     }
