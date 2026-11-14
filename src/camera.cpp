@@ -64,8 +64,14 @@ void Camera::pan(float deltaX, float deltaY) {
 }
 
 void Camera::zoom(float steps) {
-    // Multiplicative zoom keeps the control responsive at every distance.
-    const float factor = 1.0F + steps * 0.12F;
+    // Ignore invalid input and bound the exponent to keep the scale positive
+    // and finite even if a caller supplies an unusually large step count.
+    if (!std::isfinite(steps)) {
+        return;
+    }
+
+    const float boundedSteps = std::clamp(steps, -20.0F, 20.0F);
+    const float factor = std::exp(-boundedSteps * 0.12F);
     distance_ = std::clamp(
         distance_ * factor, kMinimumDistance, kMaximumDistance);
 }
