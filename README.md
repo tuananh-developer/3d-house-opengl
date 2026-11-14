@@ -6,9 +6,10 @@ A small 3D house scene built with **C++17, OpenGL, FreeGLUT, GLU and CMake**. Th
 
 - Procedural house geometry: walls, gable roof, chimney, door, windows and porch.
 - Environment: ground, walkway, flower beds, trees and fence.
-- Orbit camera controlled by the mouse, with bounded zoom.
+- Orbit and pan camera with bounded, distance-aware zoom.
 - Perspective and orthographic projection modes.
-- Basic fixed-function lighting, materials and depth testing.
+- World-space directional lighting, materials and depth testing.
+- Screen-space HUD with projection and lighting status.
 - CMake build and GitHub Actions build workflow.
 
 ## Tech stack
@@ -48,7 +49,8 @@ Run the executable from a desktop session with an OpenGL-capable display. A head
 | Input | Action |
 |---|---|
 | Drag left mouse button | Orbit camera |
-| Mouse wheel | Zoom |
+| Drag right or middle mouse button | Pan camera |
+| Mouse wheel | Zoom in / out |
 | + / = | Zoom in |
 | - / _ | Zoom out |
 | P | Toggle perspective / orthographic projection |
