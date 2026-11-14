@@ -57,6 +57,6 @@ After saving the rules, test with a non-admin collaborator:
 
 ## Current configuration note
 
-The repository contents can document this policy, but branch protection is a repository-level GitHub setting, not a source file. The current GitHub connection used for this project supports reading repository rulesets and branch protection, but does not expose a write operation for changing those settings. A repository owner must apply the settings above in GitHub Settings.
+The repository contents can document this policy, but branch protection is a repository-level GitHub setting, not a source file. The repository Rulesets API returned an empty list when checked. The classic branch-protection read endpoint returned 403 to the connected GitHub integration, and the available GitHub actions do not expose a write operation for changing repository protection settings. Therefore the current classic branch-protection state could not be verified or changed from this session. A repository owner must apply the settings above in GitHub Settings.
 
 After configuring it, verify the result under Settings → Rules → Rulesets (or Settings → Branches). Do not claim the branch is protected until GitHub shows the rule as active.
