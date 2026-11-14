@@ -17,7 +17,7 @@ constexpr float kMaximumDistance = 42.0F;
 void Camera::reset() {
     azimuth_ = 42.0F;
     elevation_ = 25.0F;
-    distance_ = 19.0F;
+    distance_ = kDefaultDistance;
     targetX_ = 0.0F;
     targetY_ = 2.2F;
     targetZ_ = 0.0F;
@@ -71,7 +71,8 @@ void Camera::zoom(float steps) {
     }
 
     const float boundedSteps = std::clamp(steps, -20.0F, 20.0F);
-    const float factor = std::exp(-boundedSteps * 0.12F);
+    // Negative steps zoom in (reduce camera distance); positive steps zoom out.
+    const float factor = std::exp(boundedSteps * 0.12F);
     distance_ = std::clamp(
         distance_ * factor, kMinimumDistance, kMaximumDistance);
 }
