@@ -1,7 +1,7 @@
 # Báo cáo giữa kỳ — Đồ họa máy tính
 
 ## Trang bìa
-Trường/Khoa: [Điền] · Giảng viên: [Điền] · Nhóm: [Điền] · Thành viên (họ tên, mã sinh viên): [Điền].
+Trường/Khoa: [Điền] · Giảng viên: [Điền] · Nhóm: [Điền] · Thành viên (họ tên, mã sinh viên): Kiệt [Điền MSSV], Huy [Điền MSSV], Nhóm trưởng [Điền họ tên và MSSV].
 
 ## 1. Giới thiệu đề tài
 Bài toán, lý do chọn, mục tiêu và phạm vi.
@@ -16,7 +16,10 @@ Primitive; translation / rotation / scaling; model-view-projection; camera; Pers
 Sơ đồ module, hệ tọa độ, thành phần nhà/cảnh quan và luồng render.
 
 ## 5. Hiện thực
-Cách dựng thân nhà, mái, cửa, cửa sổ, cảnh quan, camera và ánh sáng. Chèn code ngắn cần thiết thay vì dán toàn bộ source.
+- Kiệt: mô hình kiến trúc ngôi nhà.
+- Huy: cảnh quan, sân vườn và môi trường.
+- Nhóm trưởng: camera, projection, lighting, input và tích hợp.
+Mô tả cách hiện thực, chèn code ngắn cần thiết thay vì dán toàn bộ source.
 
 ## 6. Kết quả và kiểm thử
 Ảnh góc trước/bên/chéo; so sánh hai phép chiếu và lighting bật/tắt; bảng test case và kết quả thực tế.
@@ -24,9 +27,9 @@ Cách dựng thân nhà, mái, cửa, cửa sổ, cảnh quan, camera và ánh s
 ## 7. Phân công
 | Thành viên | Nhiệm vụ | Kết quả | Bằng chứng PR / commit / ảnh |
 |---|---|---|---|
-| TV1 | Mô hình nhà | [Điền] | [Điền] |
-| TV2 | Cảnh quan | [Điền] | [Điền] |
-| TV3 | Camera, lighting, tích hợp | [Điền] | [Điền] |
+| Kiệt | Mô hình nhà — `src/house.cpp` | [Điền] | [Điền] |
+| Huy | Cảnh quan — `src/environment.cpp` | [Điền] | [Điền] |
+| Nhóm trưởng | Camera, đồ họa, tích hợp, quản lý tiến độ | [Điền] | [Điền] |
 
 ## 8. Khó khăn và cách giải quyết
 Vấn đề, nguyên nhân, cách xử lý và bài học.
