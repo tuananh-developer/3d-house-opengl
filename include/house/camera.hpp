@@ -13,6 +13,10 @@ public:
 
     float distance() const noexcept { return distance_; }
 
+    float orthographicHalfHeight(float baseHalfHeight) const noexcept {
+        return baseHalfHeight * distance_ / kDefaultDistance;
+    }
+
 private:
     float azimuth_ = 42.0F;
     float elevation_ = 25.0F;
