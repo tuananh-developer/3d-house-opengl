@@ -1,6 +1,7 @@
 #include "house/scene.hpp"
 #include "house/render_utils.hpp"
 #include <GL/freeglut.h>
+#include <initializer_list>
 
 namespace house {
 void drawGround() {
