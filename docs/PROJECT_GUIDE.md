@@ -24,22 +24,52 @@ Một frame: clear buffers → projection → camera/view → lighting → draw 
 6. Lighting: normal, material ambient/diffuse/specular và nguồn sáng ảnh hưởng màu bề mặt.
 Chuỗi khái quát: p_clip = P × V × M × p_local.
 
-## PHÂN CÔNG NHÓM 3
+## PHÂN CÔNG CHÍNH THỨC — NHÓM 3 THÀNH VIÊN
+
 | Thành viên | Vai trò | Phạm vi và file chính | Tiêu chí bàn giao |
 |---|---|---|---|
-| TV1 | 3D House Modeling | Thân nhà, mái chữ A, cửa, cửa sổ, hiên, ống khói — src/house.cpp | Mô hình rõ, mặt tiền -Z, không xuyên hình lớn; có screenshot nhiều góc |
-| TV2 | Environment & Scene | Mặt đất, lối đi, bồn hoa, cây, hàng rào — src/environment.cpp | Bố cục cân đối, object đặt đúng mặt đất, không z-fighting rõ |
-| TV3 | Graphics & Integration | Camera, projection, lighting, input, HUD, CMake và CI — src/camera.cpp, src/main.cpp, CMakeLists.txt | Orbit/zoom ổn định, hai phép chiếu hoạt động, build và tích hợp thành công |
+| **Kiệt** | 3D House Modeling | Thân nhà, mái chữ A, cửa, cửa sổ, hiên, ống khói — `src/house.cpp` | Mô hình rõ, cân đối, mặt tiền -Z, có screenshot nhiều góc |
+| **Huy** | Environment & Scene | Mặt đất, sân, lối đi, bồn hoa, cây, hàng rào/cổng — `src/environment.cpp` | Bố cục hợp lý, vật thể đặt đúng mặt đất, không z-fighting rõ |
+| **Bạn — Nhóm trưởng** | Graphics Lead & Integration | Camera, projection, lighting, input, HUD, CMake, CI và tích hợp — `src/camera.cpp`, `src/main.cpp`, `CMakeLists.txt` | Camera ổn định, hai phép chiếu hoạt động, build pass, PR được review và tích hợp |
 
-Tên và GitHub username TV1/TV2 chưa được cung cấp: nhóm tự điền trong báo cáo, không tự gán username. Cả ba cùng review PR, chạy test, viết báo cáo và chuẩn bị thuyết trình. TV1/TV2 làm trên file geometry riêng; TV3 quản lý main/camera/build để giảm merge conflict.
+### 1. Kiệt — phụ trách mô hình ngôi nhà
+- Hoàn thiện thân nhà, móng, mái chính và đầu hồi.
+- Thiết kế cửa chính, cửa sổ, khung viền, hiên, cột đỡ và ống khói.
+- Cân đối tỷ lệ, vật liệu và màu sắc; kiểm tra normal / điểm giao hình.
+- Chụp tối thiểu 3 góc: chính diện, góc chéo, góc bên.
+- Làm việc chủ yếu trong `src/house.cpp`; nếu cần API mới phải trao đổi trước khi sửa `include/house/scene.hpp`.
 
-## Kế hoạch
+### 2. Huy — phụ trách cảnh quan
+- Hoàn thiện mặt đất, sân và đường dẫn vào nhà.
+- Bố trí cây, bồn hoa, hàng rào và cổng.
+- Bổ sung đèn sân / vật thể trang trí nếu phần bắt buộc đã ổn định.
+- Đảm bảo cảnh quan không che khuất ngôi nhà, không lơ lửng và không z-fighting.
+- Làm việc chủ yếu trong `src/environment.cpp`; tái sử dụng `drawBox` và material utilities.
+
+### 3. Bạn — nhóm trưởng, phụ trách đồ họa và tích hợp
+- Quản lý tiến độ, chia task, review PR và giữ `main` luôn build được.
+- Hoàn thiện orbit camera, zoom, reset và giới hạn góc nhìn.
+- Kiểm tra / giải thích View, Perspective, Orthographic, depth buffer, normal, lighting và material.
+- Quản lý input, HUD, CMake, GitHub Actions và tích hợp code của Kiệt / Huy.
+- Chủ trì cấu trúc báo cáo, slide, kịch bản demo; mỗi thành viên vẫn phải viết nội dung phần mình.
+- Phụ trách các file `src/camera.cpp`, `src/main.cpp`, `include/house/camera.hpp`, `CMakeLists.txt` và workflow CI.
+
+## Quy tắc phối hợp và tránh conflict
+1. Kiệt sửa `src/house.cpp`; Huy sửa `src/environment.cpp); nhóm trưởng quản lý `src/main.cpp`, camera và CMake.
+2. Không tự ý đổi quy ước tọa độ: +Y lên, mặt tiền -Z.
+3. Mỗi người tạo branch riêng: `feature/kiet-house-model`, `feature/huy-environment`, `feature/team-lead-camera-integration`.
+4. Mở PR về `main`, ghi rõ mục tiêu, file thay đổi, cách test và ảnh chụp màn hình.
+5. Nhóm trưởng review và merge sau khi CI pass; không commit thẳng lên main.
+6. Cả ba cùng chạy demo, kiểm thử, viết báo cáo và luyện phần hỏi đáp. Không ai chỉ biết mỗi module của mình.
+
+## Kế hoạch thực hiện
 - M0: cả nhóm clone, cài dependency, build baseline, thống nhất tọa độ.
-- M1: TV1/TV2/TV3 phát triển theo module và mở PR riêng.
+- M1: Kiệt, Huy và nhóm trưởng phát triển song song theo module.
 - M2: review, xử lý conflict, tích hợp vào main.
-- M3: polish chi tiết, vật liệu, ánh sáng và bố cục.
-- M4: chạy test, chụp ảnh, hoàn tất report/slide/demo.
-Definition of Done: đúng yêu cầu, build lại Release, kiểm tra trực quan, docs cập nhật và có một người khác review.
+- M3: hoàn thiện chi tiết, vật liệu, ánh sáng và bố cục.
+- M4: kiểm thử cuối, chụp ảnh, hoàn tất report / slide / demo.
+
+Definition of Done: đúng yêu cầu, build lại Release, kiểm tra trực quan, docs cập nhật và có ít nhất một thành viên khác review.
 
 ## Checklist kiểm thử
 - [ ] Mở app thấy nhà và cảnh quan.
@@ -53,4 +83,4 @@ Definition of Done: đúng yêu cầu, build lại Release, kiểm tra trực qu
 - [ ] Lưu screenshot góc trước, góc bên, góc chéo, so sánh projection và lighting.
 
 ## Dàn ý thuyết trình
-Giới thiệu đề tài → ý tưởng và tọa độ → primitive mô hình nhà → cảnh quan → camera và projection → lighting/depth buffer → demo → kết luận. Mỗi thành viên giải thích phần mình và liên hệ trực tiếp tới code; không trình bày tính năng đề xuất như thể đã hoàn thành.
+Giới thiệu đề tài → ý tưởng và tọa độ → primitive mô hình nhà (Kiệt) → cảnh quan (Huy) → camera và projection → lighting/depth buffer → demo → kết luận. Nhóm trưởng điều phối; từng thành viên giải thích phần mình và liên hệ trực tiếp tới code. Không trình bày tính năng đề xuất như thể đã hoàn thành.
