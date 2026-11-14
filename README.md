@@ -1,94 +1,106 @@
-# 3D House — Computer Graphics Midterm
+# 3D House OpenGL
 
-Dự án dựng mô hình **ngôi nhà 3D bằng C++ và OpenGL** phục vụ môn Đồ họa máy tính. Project sử dụng OpenGL fixed-function pipeline để minh họa primitive, phép biến đổi, camera, phép chiếu, depth buffer, normal, ánh sáng và vật liệu.
+A small 3D house scene built with **C++17, OpenGL, FreeGLUT, GLU and CMake**. The codebase is split into independent modules for the house model, environment, camera and rendering utilities.
 
-## Tính năng hiện tại
+## Features
 
-- Nhà 3D gồm thân nhà, mái chữ A, ống khói, cửa chính, cửa sổ, hiên và phần trang trí.
-- Sân vườn gồm mặt đất, lối đi, bồn hoa, cây và hàng rào.
-- Camera orbit bằng chuột trái; zoom bằng con lăn hoặc phím + / -.
-- Chuyển Perspective / Orthographic bằng P.
-- Bật / tắt ánh sáng bằng L; reset bằng R.
+- Procedural house geometry: walls, gable roof, chimney, door, windows and porch.
+- Environment: ground, walkway, flower beds, trees and fence.
+- Orbit camera controlled by the mouse, with bounded zoom.
+- Perspective and orthographic projection modes.
+- Basic fixed-function lighting, materials and depth testing.
+- CMake build and a GitHub Actions build workflow.
 
-## Công nghệ
+## Tech stack
 
-| Thành phần | Công nghệ |
+| Area | Choice |
 |---|---|
-| Ngôn ngữ | C++17 |
-| Đồ họa | OpenGL compatibility / fixed-function |
-| Window và input | FreeGLUT |
-| Camera / projection helper | GLU |
-| Build | CMake 3.16+ |
+| Language | C++17 |
+| Rendering API | OpenGL compatibility profile |
+| Window and input | FreeGLUT |
+| Utility library | GLU |
+| Build system | CMake 3.16+ |
+| CI | GitHub Actions |
 
-Đây là project học tập dùng pipeline OpenGL cổ điển, không phải renderer OpenGL Core Profile hiện đại.
+> This project intentionally uses the OpenGL fixed-function pipeline (glBegin, matrix stack, glMaterial, glLight) to keep rendering operations explicit and easy to follow. It does not target the modern OpenGL core profile.
 
-## Cài đặt
+## Getting started
 
-Fedora:
-```bash
-sudo dnf install gcc-c++ cmake freeglut-devel mesa-libGLU-devel
-```
+### Fedora
 
-Ubuntu / Debian:
-```bash
-sudo apt update
-sudo apt install build-essential cmake freeglut3-dev libglu1-mesa-dev
-```
+    sudo dnf install gcc-c++ cmake freeglut-devel mesa-libGLU-devel
 
-Build và chạy:
-```bash
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j
-./build/3d-house-opengl
-```
+### Ubuntu / Debian
 
-Cần desktop có hỗ trợ OpenGL để mở cửa sổ đồ họa.
+    sudo apt update
+    sudo apt install build-essential cmake freeglut3-dev libglu1-mesa-dev
 
-## Điều khiển
+### Configure, build and run
 
-| Thao tác | Chức năng |
+    cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+    cmake --build build --parallel
+    ./build/3d-house-opengl
+
+Run the executable from a desktop session with an OpenGL-capable display. A headless CI runner can compile the project, but it does not provide an interactive window for visual testing.
+
+## Controls
+
+| Input | Action |
 |---|---|
-| Kéo chuột trái | Orbit camera |
-| Con lăn | Zoom |
+| Drag left mouse button | Orbit camera |
+| Mouse wheel | Zoom |
 | + / = | Zoom in |
 | - / _ | Zoom out |
-| P | Perspective / Orthographic |
-| L | Bật / tắt lighting |
-| R | Reset |
-| Q / Esc | Thoát |
+| P | Toggle perspective / orthographic projection |
+| L | Toggle lighting |
+| R | Reset camera and display options |
+| Q / Esc | Quit |
 
-## Cấu trúc
+## Repository layout
 
-```text
-.github/                 # GitHub Actions và PR template
-docs/                    # project guide và report template
-include/house/           # camera, scene và render API
-src/
-  camera.cpp             # camera orbit / zoom
-  environment.cpp        # ground, trees, flowers, fence
-  house.cpp              # house geometry
-  main.cpp               # FreeGLUT, projection, lighting, input, HUD
-  render_utils.cpp       # drawBox, material
-CMakeLists.txt
-CONTRIBUTING.md
-LICENSE
-README.md
-```
+    .
+    ├── .github/
+    │   ├── PULL_REQUEST_TEMPLATE.md
+    │   └── workflows/build.yml
+    ├── docs/
+    │   ├── architecture.md
+    │   ├── development.md
+    │   ├── roadmap.md
+    │   └── team-workflow.md
+    ├── include/house/
+    │   ├── camera.hpp
+    │   ├── render_utils.hpp
+    │   └── scene.hpp
+    ├── src/
+    │   ├── camera.cpp
+    │   ├── environment.cpp
+    │   ├── house.cpp
+    │   ├── main.cpp
+    │   └── render_utils.cpp
+    ├── CMakeLists.txt
+    ├── CONTRIBUTING.md
+    └── LICENSE
 
-## Tài liệu nhóm
+## Documentation
 
-- [Project guide](docs/PROJECT_GUIDE.md): mục tiêu, kiến trúc, lý thuyết đồ họa, phân công 3 thành viên, kế hoạch, checklist test và dàn ý thuyết trình.
-- [Report template](docs/REPORT_TEMPLATE.md): khung báo cáo giữa kỳ để nhóm điền kết quả và ảnh thực tế.
-- [Contributing guide](CONTRIBUTING.md): branch, commit, pull request và review.
+- [Architecture](docs/architecture.md) — modules, render flow, coordinate conventions and design boundaries.
+- [Development setup](docs/development.md) — prerequisites, build commands, troubleshooting and code conventions.
+- [Team workflow](docs/team-workflow.md) — ownership, branch strategy, reviews and integration rules.
+- [Roadmap](docs/roadmap.md) — current scope, planned improvements and technical priorities.
+- [Contributing](CONTRIBUTING.md) — contribution checklist and pull request expectations.
 
-## Chuỗi biến đổi cần nắm
+## Rendering overview
 
-Một điểm từ object space qua clip space:
+Vertices are transformed through the model, view and projection stages:
 
-`p_clip = P × V × M × p_local`
+    clipPosition = Projection × View × Model × localPosition
 
-Trong đó M là Model, V là View và P là Projection. Khi thuyết trình, nhóm cần chỉ ra cách mã nguồn hiện thực từng phần và demo trực tiếp hai chế độ chiếu.
+The current implementation uses the OpenGL matrix stack for model transforms, gluLookAt for the view transform, and gluPerspective / glOrtho for projection. See the [architecture guide](docs/architecture.md) for details.
+
+## Contributing
+
+Open a focused feature branch and submit a pull request to main. Keep module ownership clear, build locally before requesting review, and include screenshots for visible scene changes. Read [CONTRIBUTING.md](CONTRIBUTING.md) before starting.
 
 ## License
 
-MIT. Xem [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
