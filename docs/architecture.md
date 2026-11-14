@@ -46,14 +46,14 @@ The conceptual vertex transform is:
 - View transform positions the scene relative to the observer. Camera::apply() computes an orbit position and calls gluLookAt.
 - Projection maps camera-space geometry to clip space. The application switches between gluPerspective and glOrtho.
 
-The camera stores azimuth, elevation, distance and a target point. Left-button dragging changes azimuth/elevation, while right- or middle-button dragging moves the target in the camera's screen plane. Mouse-wheel and keyboard input change distance using a multiplicative zoom factor. Elevation, target bounds and distance are clamped to keep the scene usable.
+The camera stores azimuth, elevation, distance and a target point. Left-button dragging changes azimuth/elevation, while right- or middle-button dragging moves the target in the camera's screen plane. Mouse-wheel and keyboard input change distance exponentially. The distance is clamped, and orthographic projection derives its view extent from the same distance so zoom remains functional in both projection modes. Elevation and target bounds are also clamped to keep the scene usable.
 
 ## Rendering details
 
 - Double buffering avoids drawing directly to the visible front buffer.
 - The depth buffer and GL_DEPTH_TEST allow nearer surfaces to occlude farther surfaces.
 - Fixed-function lighting uses ambient, diffuse and specular terms.
-- The light position is specified after the view transform on each frame. OpenGL transforms it into eye coordinates at submission time, so the source remains fixed in world space while the camera moves.
+- The light position is specified after the view transform on each frame. OpenGL transforms it into eye coordinates at submission time, so the positional source remains fixed in world space while the camera moves.
 - Materials are set through glMaterial*; GL_NORMALIZE keeps transformed normals normalized after scaling.
 - The HUD temporarily switches to orthographic screen coordinates. It saves and restores the matrix stacks and relevant OpenGL state so its overlay does not leave depth, blending or lighting settings altered for the next frame.
 - Procedural primitives are used instead of external 3D assets.
