@@ -6,10 +6,11 @@ A small 3D house scene built with **C++17, OpenGL, FreeGLUT, GLU and CMake**. Th
 
 - Procedural house geometry: walls, gable roof, chimney, door, windows and porch.
 - Environment: ground, walkway, flower beds, trees and fence.
-- Orbit camera controlled by the mouse, with bounded zoom.
+- Orbit and pan camera with bounded, distance-aware zoom in both projection modes.
 - Perspective and orthographic projection modes.
-- Basic fixed-function lighting, materials and depth testing.
-- CMake build and GitHub Actions build workflow.
+- World-space positional lighting, materials and depth testing.
+- Screen-space HUD with projection and lighting status.
+- CMake build, camera behavior tests and GitHub Actions CI.
 
 ## Tech stack
 
@@ -35,20 +36,22 @@ A small 3D house scene built with **C++17, OpenGL, FreeGLUT, GLU and CMake**. Th
     sudo apt update
     sudo apt install build-essential cmake freeglut3-dev libglu1-mesa-dev
 
-### Configure, build and run
+### Configure, build, test and run
 
     cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
     cmake --build build --parallel
+    ctest --test-dir build --output-on-failure
     ./build/3d-house-opengl
 
-Run the executable from a desktop session with an OpenGL-capable display. A headless CI runner can compile the project, but it does not provide an interactive window for visual testing.
+Run the executable from a desktop session with an OpenGL-capable display. A headless CI runner can compile and test camera behavior, but it does not provide an interactive window for visual testing.
 
 ## Controls
 
 | Input | Action |
 |---|---|
 | Drag left mouse button | Orbit camera |
-| Mouse wheel | Zoom |
+| Drag right or middle mouse button | Pan camera |
+| Mouse wheel | Zoom in / out |
 | + / = | Zoom in |
 | - / _ | Zoom out |
 | P | Toggle perspective / orthographic projection |
@@ -71,6 +74,7 @@ Run the executable from a desktop session with an OpenGL-capable display. A head
     │   └── team-workflow.md
     ├── include/house/
     ├── src/
+    ├── tests/
     ├── CMakeLists.txt
     ├── CONTRIBUTING.md
     └── LICENSE
